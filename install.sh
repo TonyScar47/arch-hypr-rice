@@ -49,7 +49,7 @@ echo -e "${GREEN}[*] Installing official repository packages...${NC}"
 
 # Categorized Package Lists
 RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber)
-DEV_CORE=(base-devel git neovim zsh python python-pip cmake curl tmux zip unzip firefox)
+DEV_CORE=(base-devel git neovim zsh python python-pip cmake curl tmux zip unzip firefox networkmanager)
 SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk)
 
 sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}" "${SEC_SUITE[@]}"
@@ -96,6 +96,7 @@ fi
 echo -e "${GREEN}[*] Configuring system services and user groups...${NC}"
 sudo systemctl enable --now docker.service
 sudo usermod -aG docker,wireshark "$USER"
+sudo systemctl enable --now NetworkManager
 
 # --- 9. PYTHON VIRTUAL ENVIRONMENT ---
 # Dedicated environment for CyberChallenge tools
