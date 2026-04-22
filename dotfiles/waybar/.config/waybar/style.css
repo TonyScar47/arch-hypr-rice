@@ -38,9 +38,9 @@ window#waybar {
 }
 
 /* Individual Module Styling */
-#clock, #cpu, #memory, #battery, #pulseaudio, #tray {
-    padding: 0 15px;
-    margin: 0 5px;
+#clock, #cpu, #memory, #netowrk, #battery, #pulseaudio, #tray {
+    padding: 0 8px;
+    margin: 0 2px;
     color: #cdd6f4;
 }
 
@@ -59,3 +59,4 @@ window#waybar {
 #cpu { color: #89b4fa; }        /* Blue */
 #memory { color: #a6e3a1; }     /* Green */
 #pulseaudio { color: #fab387; } /* Peach */
+#network { color: #f9e2af; } /* Yellow */
