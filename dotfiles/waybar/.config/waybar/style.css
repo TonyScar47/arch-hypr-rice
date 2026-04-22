@@ -1,0 +1,61 @@
+/* * Waybar Style - Catppuccin Mocha Theme
+ * Part of the arch-hypr-rice project
+ */
+
+/* General Styles */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Roboto", "Helvetica", sans-serif;
+    font-size: 14px;
+    min-height: 0;
+}
+
+/* Main Bar Container */
+window#waybar {
+    background: rgba(30, 30, 46, 0.9); /* Mocha Base with transparency */
+    color: #cdd6f4;                   /* Mocha Text */
+    border-bottom: 2px solid #cba6f7; /* Mauve accent border */
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+/* Workspaces Module */
+#workspaces button {
+    padding: 0 10px;
+    color: #b4befe;                   /* Mocha Lavender */
+    background: transparent;
+}
+
+#workspaces button.active {
+    color: #cba6f7;                   /* Mocha Mauve */
+    border-bottom: 3px solid #cba6f7;
+}
+
+#workspaces button:hover {
+    background: rgba(49, 50, 68, 0.5); /* Mocha Surface0 */
+    color: #f5e0dc;                   /* Mocha Rosewater */
+}
+
+/* Individual Module Styling */
+#clock, #cpu, #memory, #battery, #pulseaudio, #tray {
+    padding: 0 15px;
+    margin: 0 5px;
+    color: #cdd6f4;
+}
+
+/* Specific Module Highlights */
+#clock {
+    color: #cba6f7; /* Mauve highlight for time */
+    font-weight: bold;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f38ba8; /* Red alert for low battery */
+    color: #1e1e2e;
+}
+
+/* Color accents for system monitoring */
+#cpu { color: #89b4fa; }        /* Blue */
+#memory { color: #a6e3a1; }     /* Green */
+#pulseaudio { color: #fab387; } /* Peach */
