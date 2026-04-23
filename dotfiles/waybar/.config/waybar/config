@@ -6,6 +6,11 @@
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["cpu", "memory", "network", "battery", "pulseaudio", "tray"],
+    "custom/power": {
+        "format": " ",
+        "on-click": "wlogout",
+        "tooltip": false
+    },
     "hyprland/workspaces": {
         "format": "{name}",
         "on-click": "activate"
@@ -16,21 +21,28 @@
     },
     "cpu": {
         "format": "  {usage}%",
-        "interval": 2
+        "on-click": "foot -e btop"
     },
     "memory": {
         "format": "  {}%",
-        "interval": 2
+        "on-click": "foot -e btop"
     },
     "network": {
         "format-wifi": "  {bandwidthDownBits}",
         "format-ethernet": "󰈀 {bandwidthDownBits}",
+        "on-clock": "foot -e nmtui",
         "format-disconnected": "󰤮",
         "interval": 2,
         "tooltip-format": "{ifname} via {gwaddr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)",
         "tooltip-format-ethernet": "{ifname} ",
         "tooltip-format-disconnected": "Disconnected"
+    },
+    "custom/power": {
+        "format": " ",
+        "on-click": "hyprctl dispatch exit",
+        "on-click-right": "systemctl poweroff",
+        "tooltip": false
     },
     "battery": {
         "states": {

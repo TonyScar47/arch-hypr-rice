@@ -55,6 +55,13 @@ window#waybar {
     color: #1e1e2e;
 }
 
+#custom-power {
+    color: #f38ba8; /* Colore Rosso (Mocha Red) */
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 5px;
+}
+
 /* Color accents for system monitoring */
 #cpu { color: #89b4fa; }        /* Blue */
 #memory { color: #a6e3a1; }     /* Green */
