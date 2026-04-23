@@ -1,6 +1,32 @@
--- --- Neovim Configuration - arch-hypr-rice ---
+-- --- Neovim Configuration (Catppuccin Edition) - arch-hypr-rice ---
 
--- 1. GLOBAL OPTIONS
+-- 1. BOOTSTRAP PLUGIN MANAGER (Lazy.nvim)
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- 2. PLUGIN INSTALLATION
+
+require("lazy").setup({
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- Advanced syntax highlighting
+})
+
+-- 3. THEME CONFIGURATION
+
+vim.cmd.colorscheme "catppuccin-mocha"
+
+-- 4. GLOBAL OPTIONS (From your setup)
 
 local opt = vim.opt
 
@@ -14,21 +40,21 @@ opt.cursorline = true         -- Highlight the current line
 opt.splitright = true         -- Open new vertical splits to the right
 opt.splitbelow = true         -- Open new horizontal splits below
 
--- 2. TABS & INDENTATION
+-- 5. TABS & INDENTATION
 
 opt.tabstop = 4               -- Number of spaces a tab counts for
 opt.shiftwidth = 4            -- Number of spaces for autoindent
 opt.expandtab = true          -- Convert tabs to spaces
 opt.smartindent = true        -- Make indenting smart
 
--- 3. CLIPBOARD & BACKUP
+-- 6. CLIPBOARD & BACKUP
 
 opt.clipboard = "unnamedplus" -- Use system clipboard
 opt.swapfile = false          -- Disable swap files
 opt.backup = false            -- Disable backup files
 opt.undofile = true           -- Enable persistent undo history
 
--- 4. KEYBINDINGS (MACROS)
+-- 7. KEYBINDINGS
 
 vim.g.mapleader = " "         -- Set Space as the leader key
 
