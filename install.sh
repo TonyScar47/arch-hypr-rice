@@ -107,7 +107,12 @@ if [ ! -d "venv" ]; then
     ./venv/bin/pip install requests scapy pwntools pycryptodome
 fi
 
-# --- 10. CLEANUP & FINALIZATION ---
+# --- 10. SPICETIFY ---
+if command -v spicetify &> /dev/null; then
+    spicetify backup apply || echo -e "${RED}[!] Nota: Spicetify richiede che Spotify sia stato aperto almeno una volta.${NC}"
+fi
+
+# --- 11. CLEANUP & FINALIZATION ---
 echo -e "${GREEN}[*] Cleaning up package cache...${NC}"
 sudo pacman -Sc --noconfirm
 
