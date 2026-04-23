@@ -59,7 +59,6 @@ window#waybar {
     color: #f38ba8; /* Colore Rosso (Mocha Red) */
     padding-left: 10px;
     padding-right: 10px;
-    margin-right: 5px;
 }
 
 /* Color accents for system monitoring */

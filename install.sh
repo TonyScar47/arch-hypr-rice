@@ -48,7 +48,7 @@ sudo pacman -Syu --noconfirm
 echo -e "${GREEN}[*] Installing official repository packages...${NC}"
 
 # Categorized Package Lists
-RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber btop network-manager-applet)
+RICE_SUITE=(hyprland waybar swaybg discord wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber btop network-manager-applet)
 DEV_CORE=(base-devel git neovim zsh python python-pip cmake curl tmux zip unzip firefox networkmanager)
 SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk)
 
@@ -65,7 +65,7 @@ fi
 
 # --- 5. AUR & THIRD-PARTY APPLICATIONS ---
 echo -e "${GREEN}[*] Installing AUR packages (VS Code, Burp Suite, etc.)...${NC}"
-AUR_APPS=(visual-studio-code-bin burpsuite ngrok zsh-autosuggestions zsh-syntax-highlighting)
+AUR_APPS=(visual-studio-code-bin burpsuite ngrok zsh-autosuggestions zsh-syntax-highlighting spotify spicetify-cli)
 yay -S --needed --noconfirm "${AUR_APPS[@]}"
 
 # --- 6. DOTFILES DEPLOYMENT (GNU STOW) ---

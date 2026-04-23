@@ -5,7 +5,7 @@
     "spacing": 2,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["cpu", "memory", "network", "battery", "pulseaudio", "tray"],
+    "modules-right": ["cpu", "memory", "network", "battery", "pulseaudio", "tray", "custom/power"],
     "custom/power": {
         "format": " ",
         "on-click": "wlogout",
@@ -40,8 +40,7 @@
     },
     "custom/power": {
         "format": " ",
-        "on-click": "hyprctl dispatch exit",
-        "on-click-right": "systemctl poweroff",
+        "on-click": "wlogout", // Apre il menu con tutte le scelte
         "tooltip": false
     },
     "battery": {
