@@ -50,7 +50,7 @@ echo -e "${GREEN}[*] Installing official repository packages...${NC}"
 # Categorized Package Lists
 RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber btop network-manager-applet)
 DEV_CORE=(base-devel git neovim zsh python python-pip cmake curl tmux zip unzip firefox networkmanager)
-SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk)
+SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk openbsd-netcat)
 
 sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}" "${SEC_SUITE[@]}"
 
