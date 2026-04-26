@@ -48,7 +48,7 @@ sudo pacman -Syu --noconfirm
 echo -e "${GREEN}[*] Installing official repository packages...${NC}"
 
 # Categorized Package Lists
-RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber btop network-manager-applet)
+RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf libreoffice-fresh)
 DEV_CORE=(base-devel git neovim zsh python python-pip cmake curl tmux zip unzip firefox networkmanager)
 SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk openbsd-netcat)
 
@@ -111,6 +111,15 @@ fi
 if command -v spicetify &> /dev/null; then
     spicetify backup apply || echo -e "${RED}[!] Nota: Spicetify richiede che Spotify sia stato aperto almeno una volta.${NC}"
 fi
+
+# --- 10.5 DEFAULT APPLICATIONS (MIME TYPES) ---
+echo -e "${GREEN}[*] Setting default applications for PDF and Word...${NC}"
+# Ensure PDF files open with Zathura
+xdg-mime default org.pwmt.zathura.desktop application/pdf
+# Ensure Word files open with LibreOffice Writer
+xdg-mime default libreoffice-writer.desktop application/msword
+xdg-mime default libreoffice-writer.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
 
 # --- 11. CLEANUP & FINALIZATION ---
 echo -e "${GREEN}[*] Cleaning up package cache...${NC}"
