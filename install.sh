@@ -25,6 +25,18 @@ echo -e "${BLUE}--- INITIALIZING FULL SYSTEM SETUP ---${NC}"
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+# echo "[*] Enabling colors and ILoveCandy for pacman..."
+# Uncomment the 'Color' option (removes the #)
+sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
+
+# Check if ILoveCandy already exists, if not add it right below 'Color'
+if ! grep -q "ILoveCandy" /etc/pacman.conf; then
+    sudo sed -i '/^Color/a ILoveCandy' /etc/pacman.conf
+    echo "[+] ILoveCandy enabled successfully!"
+else
+    echo "[!] ILoveCandy is already enabled."
+fi
+
 # --- 2. REPOSITORY & MIRROR OPTIMIZATION ---
 # Optimize parallel downloads and sync mirrors globally (Wiki-approved method)
 echo -e "${GREEN}[*] Optimizing Pacman configuration...${NC}"
