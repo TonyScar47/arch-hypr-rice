@@ -28,9 +28,9 @@
         "on-click": "foot -e btop"
     },
     "network": {
-        "format-wifi": "  {bandwidthDownBits}",
+        "format-wifi": " {essid}",
         "format-ethernet": "󰈀 {bandwidthDownBits}",
-        "on-clock": "foot -e nmtui",
+        "on-click": "nm-connection-editor" 
         "format-disconnected": "󰤮",
         "interval": 2,
         "tooltip-format": "{ifname} via {gwaddr}",
