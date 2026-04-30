@@ -97,6 +97,7 @@ echo -e "${GREEN}[*] Configuring system services and user groups...${NC}"
 sudo systemctl enable --now docker.service
 sudo usermod -aG docker,wireshark "$USER"
 sudo systemctl enable --now NetworkManager
+grep -qq "nm-applet" ~/.config/hypr/hyprland.conf || echo "exec-once = nm-applet --indicator" >> ~/.config/hypr/hyprland.conf
 
 # --- 9. PYTHON VIRTUAL ENVIRONMENT ---
 # Dedicated environment for CyberChallenge tools
