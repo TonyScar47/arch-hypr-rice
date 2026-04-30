@@ -199,6 +199,24 @@ If you don't see the Marketplace (shopping cart icon) after running the install 
 If the installation fails or something doesn't work, don't panic. The script automatically saves a detailed log file named `install_progress.log` in the root directory. 
 Open it with any text editor to see exactly which command or package caused the error.
 
+### 🚑 Troubleshooting A.
+
+Corrupted packages, timeouts, or network errors during installation?
+If the installation stops abruptly (e.g., due to a slow mirror or a sudden network disconnection), you might end up with partial or corrupted files in your pacman cache. If the script keeps failing or throws reading errors (like Error reading fd 7), do a complete cache cleanup before trying again:
+
+ ```bash
+sudo pacman -Scc
+```
+
+> [!WARNING]
+> Answer Y to all terminal prompts to empty the cache, then restart the installation with ./install.sh. Use this command only as an emergency step to unblock the setup, as it wipes out all saved package versions and will prevent you from doing a quick downgrade in the future if an update breaks your system.
+
+### 🚑 Troubleshooting B.
+
+ ```bash
+nmtui
+```
+
 ---
 
 ## 📜 License
