@@ -30,7 +30,7 @@
     "network": {
         "format-wifi": " {essid}",
         "format-ethernet": "󰈀 {bandwidthDownBits}",
-        "on-click": "nm-connection-editor" 
+        "on-click": "nm-connection-editor",
         "format-disconnected": "󰤮",
         "interval": 2,
         "tooltip-format": "{ifname} via {gwaddr}",
