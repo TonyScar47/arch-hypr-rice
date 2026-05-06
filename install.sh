@@ -61,7 +61,7 @@ echo -e "${GREEN}[*] Installing official repository packages...${NC}"
 
 # Categorized Package Lists
 RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf libreoffice-fresh pavucontrol networkmanager)
-DEV_CORE=(base-devel git neovim zsh python python-pip cmake curl tmux zip unzip firefox)
+DEV_CORE=(base-devel git neovim zsh python python-pip python-sympy cmake curl tmux zip unzip firefox)
 SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk openbsd-netcat)
 
 sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}" "${SEC_SUITE[@]}"
@@ -117,7 +117,7 @@ if [ ! -d "venv" ]; then
     echo -e "${GREEN}[*] Creating Python Virtual Environment...${NC}"
     python -m venv venv
     ./venv/bin/pip install --upgrade pip
-    ./venv/bin/pip install requests scapy pwntools pycryptodome
+    ./venv/bin/pip install --upgrade requests scapy pwntools pycryptodome sympy
 fi
 
 # --- 10. SPICETIFY ---
