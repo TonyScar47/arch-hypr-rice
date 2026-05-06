@@ -22,10 +22,10 @@ chmod +x install.sh
 
 If you want to modify the setup before installing:
 
-    Clone the repository using the git clone command above.
-    Navigate into the folders inside dotfiles/ and modify the files according to your preferences.
-    If you want to add or remove programs, open install.sh and edit the RICE_SUITE, DEV_CORE, SEC_SUITE, or AUR_APPS arrays.
-    Run ./install.sh.
+   Clone the repository using the git clone command above.
+   Navigate into the folders inside dotfiles/ and modify the files according to your preferences.
+   If you want to add or remove programs, open install.sh and edit the RICE_SUITE, DEV_CORE, SEC_SUITE, or AUR_APPS arrays.
+   Run ./install.sh.
 
 ---
 
@@ -213,6 +213,16 @@ sudo pacman -Scc
 
 ### 🚑 Troubleshooting B.
 
+If you find yourself without an internet connection after the installation, or if the graphical Wi-Fi applet (like nm-applet) crashes or fails to load, you can rely on nmtui (NetworkManager Text User Interface).
+
+It is a command-line tool with a very user-friendly text-based user interface (TUI). It is mainly used to:
+ 
+   * Scan for and connect to Wi-Fi networks.
+   
+   * Easily enter your network password without having to deal with raw CLI commands.
+   
+   * Edit or delete existing network configurations.
+
  ```bash
 nmtui
 ```
@@ -222,6 +232,3 @@ nmtui
 ## 📜 License
 
 This project is licensed under the **MIT License** (Copyright (c) 2026 Tony-ScarFace). Feel free to use, modify, and distribute this code as you see fit.
-
----
-
