@@ -223,7 +223,12 @@ It is a command-line tool with a very user-friendly text-based user interface (T
    
    * Edit or delete existing network configurations.
 
- ```bash
+```bash
+nmtui
+```
+
+```bash
+nmcli device wifi rescan
 nmtui
 ```
 
