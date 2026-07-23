@@ -32,3 +32,8 @@ alias update='sudo pacman -Syu && yay -Sua'
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
   exec Hyprland
 fi
+
+# 5. TERMINAL AUTOSTART 
+fastfetch
+# Remove the hash (#) below to enable the wolf on startup, or add it back to disable it.
+# dotfile > fastfetch > .config > fastfetch > wolf.txt
