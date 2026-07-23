@@ -3,8 +3,6 @@
 # ==============================================================================
 # ARCH-HYPR-RICE & CYBER-SECURITY PROVISIONING SCRIPT (V1.0)
 # ==============================================================================
-# This script automates the installation of Hyprland, system dotfiles,
-# development tools, and security suites. It is designed to be idempotent.
 
 # --- Terminal Colors ---
 GREEN='\033[0;32m'
@@ -21,7 +19,6 @@ trap 'echo -e "\n${RED}[!] CRITICAL ERROR: Check $LOG_FILE for details.${NC}\n"'
 echo -e "${BLUE}--- INITIALIZING FULL SYSTEM SETUP ---${NC}"
 
 # --- 1. SUDO PERSISTENCE ---
-# Keeps sudo active throughout the installation process
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
@@ -38,32 +35,29 @@ else
 fi
 
 # --- 2. REPOSITORY & MIRROR OPTIMIZATION ---
-# Optimize parallel downloads and sync mirrors globally (Wiki-approved method)
 echo -e "${GREEN}[*] Optimizing Pacman configuration...${NC}"
 sudo sed -i 's/^#ParallelDownloads/ParallelDownloads = 10/' /etc/pacman.conf
 
 echo -e "${GREEN}[*] Benchmarking mirrors for maximum speed...${NC}"
 sudo pacman -Sy --needed --noconfirm archlinux-keyring reflector
 
-# Generic reflector command: picks latest 20 HTTPS mirrors, sorted by transfer rate
 sudo reflector \
     --latest 20 \
     --protocol https \
     --sort rate \
     --save /etc/pacman.d/mirrorlist || echo "Reflector failed, using default mirrors."
 
-# Perform full system synchronization
 sudo pacman -Syu --noconfirm
 
 # --- 3. CORE PACKAGE INSTALLATION ---
-# Installing Desktop Environment, Core Tools, and Security Suites
 echo -e "${GREEN}[*] Installing official repository packages...${NC}"
 
-# Categorized Package Lists
 RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd ethtool
             pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf
             libreoffice-fresh pavucontrol networkmanager brightnessctl grim slurp wl-clipboard)
+
 DEV_CORE=(base-devel git neovim zsh python python-pip python-sympy cmake curl tmux zip unzip firefox ethtool)
+
 SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk openbsd-netcat ghidra)
 
 sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}" "${SEC_SUITE[@]}"
@@ -83,7 +77,6 @@ AUR_APPS=(visual-studio-code-bin burpsuite ngrok zsh-autosuggestions zsh-syntax-
 yay -S --needed --noconfirm "${AUR_APPS[@]}"
 
 # --- 6. DOTFILES DEPLOYMENT (GNU STOW) ---
-# Links configurations from the repo to the user's home directory
 echo -e "${GREEN}[*] Deploying dotfiles via GNU Stow...${NC}"
 if [ -d "dotfiles" ]; then
     cd dotfiles
@@ -95,7 +88,6 @@ else
 fi
 
 # --- 7. SHELL & FRAMEWORK CONFIGURATION ---
-# Install Oh My Zsh if not present
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo -e "${GREEN}[*] Installing Oh My Zsh framework...${NC}"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -114,7 +106,6 @@ sudo systemctl enable --now NetworkManager
 grep -qq "nm-applet" ~/.config/hypr/hyprland.conf || echo "exec-once = nm-applet --indicator" >> ~/.config/hypr/hyprland.conf
 
 # --- 9. PYTHON VIRTUAL ENVIRONMENT ---
-# Dedicated environment for CyberChallenge tools
 if [ ! -d "venv" ]; then
     echo -e "${GREEN}[*] Creating Python Virtual Environment...${NC}"
     python -m venv venv
@@ -129,9 +120,7 @@ fi
 
 # --- 10.5 DEFAULT APPLICATIONS (MIME TYPES) ---
 echo -e "${GREEN}[*] Setting default applications for PDF and Word...${NC}"
-# Ensure PDF files open with Zathura
 xdg-mime default org.pwmt.zathura.desktop application/pdf
-# Ensure Word files open with LibreOffice Writer
 xdg-mime default libreoffice-writer.desktop application/msword
 xdg-mime default libreoffice-writer.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
 

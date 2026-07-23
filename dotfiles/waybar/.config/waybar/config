@@ -40,7 +40,7 @@
     },
     "custom/power": {
         "format": " ",
-        "on-click": "wlogout", // Apre il menu con tutte le scelte
+        "on-click": "wlogout", 
         "tooltip": false
     },
     "battery": {

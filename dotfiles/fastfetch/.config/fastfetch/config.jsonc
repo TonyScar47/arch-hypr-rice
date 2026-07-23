@@ -3,7 +3,7 @@
     "logo": {
         "source": "~/.config/fastfetch/wolf.txt",
         "color": {
-            "1": "magenta", // Il colore del lupo (Mauve)
+            "1": "magenta", 
             "2": "blue"
         },
         "padding": {

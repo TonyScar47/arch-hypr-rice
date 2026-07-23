@@ -191,6 +191,7 @@ If you don't see the Marketplace (shopping cart icon) after running the install 
     ```
 
 5.  Restart Spotify. The Marketplace will now be available!
+6.  If you encounter any "Permission denied" errors while trying to update Spicetify in the future, please consult **Troubleshooting C** below.
 
 ---
 
@@ -230,6 +231,20 @@ nmtui
 ```bash
 nmcli device wifi rescan
 nmtui
+```
+
+### 🚑 Troubleshooting C: Updating Spicetify (Permission Denied)
+
+If you try to update Spicetify (`spicetify update`) and receive a "Permission denied" error, the system is blocking it because the installation directory is owned by root. 
+
+To fix the permissions, force the update, and re-inject the theme into Spotify, run these exact commands in order:
+
+```bash
+sudo chown -R $USER:$USER /opt/spicetify-cli
+spicetify update
+spicetify backup apply
+spicetify restore
+spicetify backup apply
 ```
 
 ---

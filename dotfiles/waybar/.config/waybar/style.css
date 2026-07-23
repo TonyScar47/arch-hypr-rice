@@ -1,6 +1,4 @@
-/* * Waybar Style - Catppuccin Mocha Theme
- * Part of the arch-hypr-rice project
- */
+/* Waybar Style - Catppuccin Mocha Theme */
 
 /* General Styles */
 * {
@@ -33,7 +31,7 @@ window#waybar {
 }
 
 #workspaces button:hover {
-    background: rgba(49, 50, 68, 0.5); /* Mocha Surface0 */
+    background: rgba(49, 50, 68, 0.5);/* Mocha Surface0 */
     color: #f5e0dc;                   /* Mocha Rosewater */
 }
 
@@ -62,7 +60,7 @@ window#waybar {
 }
 
 /* Color accents for system monitoring */
-#cpu { color: #89b4fa; }        /* Blue */
-#memory { color: #a6e3a1; }     /* Green */
-#pulseaudio { color: #fab387; } /* Peach */
-#network { color: #f9e2af; } /* Yellow */
+#cpu { color: #89b4fa; }        
+#memory { color: #a6e3a1; }     
+#pulseaudio { color: #fab387; } 
+#network { color: #f9e2af; } 
