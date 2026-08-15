@@ -56,7 +56,7 @@ RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-n
             pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf
             libreoffice-fresh pavucontrol networkmanager brightnessctl grim slurp wl-clipboard)
 
-DEV_CORE=(base-devel git neovim zsh python python-pip python-sympy cmake curl tmux zip unzip firefox ethtool)
+DEV_CORE=(base-devel git neovim zsh python python-pip python-sympy cmake curl tmux zip unzip firefox ethtool nodejs npm)
 
 SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk openbsd-netcat ghidra)
 
