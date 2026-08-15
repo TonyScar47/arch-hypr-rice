@@ -62,6 +62,10 @@ SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radar
 
 sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}" "${SEC_SUITE[@]}"
 
+if [ -d "/opt/spicetify-cli" ]; then
+    sudo rm -rf /opt/spicetify-cli
+fi
+
 # --- 4. AUR HELPER SETUP (YAY) ---
 if ! command -v yay &> /dev/null; then
     echo -e "${GREEN}[*] Building yay-bin from AUR...${NC}"
