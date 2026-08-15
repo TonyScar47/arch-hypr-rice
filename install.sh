@@ -118,8 +118,10 @@ if [ ! -d "venv" ]; then
 fi
 
 # --- 10. SPICETIFY ---
-if command -v spicetify &> /dev/null; then
-    spicetify backup apply || echo -e "${RED}[!] Nota: Spicetify richiede che Spotify sia stato aperto almeno una volta.${NC}"
+if command -v spicetify &> /dev/null && [ -d "/opt/spotify" ]; then
+    sudo chmod a+wr /opt/spotify
+    sudo chmod a+wr /opt/spotify/Apps -R
+    spicetify backup apply 2>/dev/null || echo -e "${RED}[!] Note: Spicetify requires Spotify to have been launched at least once.${NC}"
 fi
 
 # --- 10.5 DEFAULT APPLICATIONS (MIME TYPES) ---
