@@ -30,7 +30,7 @@ alias update='sudo pacman -Syu && yay -Sua'
 
 # This block ensures Hyprland starts automatically when you log in via TTY1
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-  exec Hyprland
+  exec start-hyprland
 fi
 
 # 5. TERMINAL AUTOSTART 

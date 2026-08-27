@@ -107,7 +107,6 @@ echo -e "${GREEN}[*] Configuring system services and user groups...${NC}"
 sudo systemctl enable --now docker.service
 sudo usermod -aG docker,wireshark "$USER"
 sudo systemctl enable --now NetworkManager
-grep -qq "nm-applet" ~/.config/hypr/hyprland.conf || echo "exec-once = nm-applet --indicator" >> ~/.config/hypr/hyprland.conf
 
 # --- 9. PYTHON VIRTUAL ENVIRONMENT ---
 if [ ! -d "venv" ]; then
@@ -138,7 +137,7 @@ sudo pacman -Sc --noconfirm
 echo -e "\n${BLUE}============================================================${NC}"
 echo -e "${GREEN}SUCCESS: System is fully provisioned and themed.${NC}"
 echo -e "${BLUE}POST-INSTALLATION NOTES:${NC}"
-echo -e "1. Run ${RED}Hyprland${NC} to start your desktop session."
+echo -e "1. Run ${RED}start-hyprland${NC} to start your desktop session."
 echo -e "2. Use the ${RED}update${NC} alias to keep your system and AUR synced."
 echo -e "3. NGROK: Remember to add your authtoken: ${RED}ngrok config add-authtoken <TOKEN>${NC}"
 echo -e "${BLUE}============================================================${NC}\n"

@@ -88,28 +88,23 @@ This script is the core of the automation and executes the following steps seque
 
 ### 2. Hyprland (Window Manager)
 
-The entire window manager logic is located in the dotfiles/hyprland/.config/hypr/ directory. Here is exactly where to go for specific modifications:
+The window manager logic now lives in **Lua** (Hyprland's config format since 0.55; the old `.conf`/hyprlang format is removed in 0.57). Files are in `dotfiles/hyprland/.config/hypr/`:
 
 * **Colors & Themes:**
-    * **File: dotfiles/hyprland/.config/hypr/colors.conf**
-    * **What to change: You will find the RGB variables for the Catppuccin Mocha theme (e.g., $mauve, $blue, $red). Change the values here to overhaul the colors of borders and interfaces all at once.**
+    * **File: `colors.lua`** — a Lua module that `return`s the Catppuccin Mocha palette (e.g. `mauve`, `blue`, `red`). It's imported at the top of `hyprland.lua` via `local c = require("colors")`. Change a value here to update borders and accents everywhere.
 
 * **Monitors & Resolution:**
-    * **File: hyprland.conf (Section 2)**
-    * **What to change: Edit the line monitor=,highres,auto,1. If you have multiple monitors or want to adjust refresh rates/scaling, this is the place.**
+    * **File: `hyprland.lua`** — the `hl.monitor({ ... })` call. Edit `mode`, `scale`, or `position`.
 
 * **Keybindings:**
-    * **File: hyprland.conf (Section 8)**
-    * **What to change: Look for all macros starting with bind. For example, to change the default terminal or the launcher (Wofi), find the lines with $mainMod, RETURN or $mainMod, D.**
+    * **File: `hyprland.lua`** — the `hl.bind(...)` calls, in the form `hl.bind("SUPER + KEY", hl.dsp.<action>)`.
 
 * **Aesthetics (Gaps, Borders, Rounding):**
-    * **File: hyprland.conf (Sections 4 & 5)**
-    * **What to change: Modify gaps_in (spacing between windows), gaps_out (spacing from screen edges), or rounding to change the corner radius.**
+    * **File: `hyprland.lua`** — the `hl.config({ general = ..., decoration = ... })` block (`gaps_in`, `gaps_out`, `border_size`, `rounding`).
 
 * **Autostart Apps:**
-    * **File: hyprland.conf (Section 7)**
-    * **What to change: Look for lines starting with exec-once. If you want an app (e.g., Discord or a Browser) to open automatically upon login, add it here.**
-
+    * **File: `hyprland.lua`** — inside `hl.on("hyprland.start", function() ... end)`, add `hl.exec_cmd("appname")` (replaces the old `exec-once`).
+    
 ### 3. Waybar (Status Bar) - Detailed Analysis (English)
 
 The top status bar is entirely configured within the dotfiles/waybar/.config/waybar/ directory. Here are the key files:
