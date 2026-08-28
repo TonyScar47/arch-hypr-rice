@@ -1,143 +1,125 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# ==============================================================================
-# ARCH-HYPR-RICE & CYBER-SECURITY PROVISIONING SCRIPT (V1.0)
-# ==============================================================================
-
-# --- Terminal Colors ---
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-NC='\033[0m'
-
-# --- Logging & Error Handling ---
 LOG_FILE="install_progress.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
-set -euo pipefail
-trap 'echo -e "\n${RED}[!] CRITICAL ERROR: Check $LOG_FILE for details.${NC}\n"' ERR
 
-echo -e "${BLUE}--- INITIALIZING FULL SYSTEM SETUP ---${NC}"
+# Colors & helper functions
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
-# --- 1. SUDO PERSISTENCE ---
+info() { echo -e "${BLUE}[*]${NC} $*"; }
+ok()   { echo -e "${GREEN}[+]${NC} $*"; }
+warn() { echo -e "${YELLOW}[!]${NC} $*"; }
+err()  { echo -e "${RED}[-]${NC} $*"; }
+
+trap 'err "Installation failed on line $LINENO. See $LOG_FILE for details."' ERR
+
+# 1. Sudo Persistence
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-# echo "[*] Enabling colors and ILoveCandy for pacman..."
-# Uncomment the 'Color' option (removes the #)
+# 2. Pacman & Mirror Optimization
+info "Configuring Pacman options..."
 sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
-
-# Check if ILoveCandy already exists, if not add it right below 'Color'
 if ! grep -q "ILoveCandy" /etc/pacman.conf; then
     sudo sed -i '/^Color/a ILoveCandy' /etc/pacman.conf
-    echo "[+] ILoveCandy enabled successfully!"
-else
-    echo "[!] ILoveCandy is already enabled."
 fi
-
-# --- 2. REPOSITORY & MIRROR OPTIMIZATION ---
-echo -e "${GREEN}[*] Optimizing Pacman configuration...${NC}"
 sudo sed -i 's/^#ParallelDownloads/ParallelDownloads = 10/' /etc/pacman.conf
 
-echo -e "${GREEN}[*] Benchmarking mirrors for maximum speed...${NC}"
+info "Benchmarking fast HTTPS mirrors..."
 sudo pacman -Sy --needed --noconfirm archlinux-keyring reflector
-
 sudo reflector \
     --latest 20 \
     --protocol https \
     --sort rate \
-    --save /etc/pacman.d/mirrorlist || echo "Reflector failed, using default mirrors."
+    --save /etc/pacman.d/mirrorlist || warn "Reflector timed out. Using default mirrors."
 
+info "Upgrading system packages..."
 sudo pacman -Syu --noconfirm
 
-# --- 3. CORE PACKAGE INSTALLATION ---
-echo -e "${GREEN}[*] Installing official repository packages...${NC}"
+# 3. Desktop Rice & Base Developer Packages (No Security Tools)
+info "Installing desktop environment, media, fonts, and base dev tools..."
+RICE_SUITE=(
+    hyprland waybar swaybg wofi foot fastfetch ttf-jetbrains-mono-nerd
+    pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf
+    libreoffice-fresh pavucontrol networkmanager brightnessctl grim slurp wl-clipboard stow ethtool
+)
 
-RICE_SUITE=(hyprland waybar swaybg wofi foot stow fastfetch ttf-jetbrains-mono-nerd ethtool
-            pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf
-            libreoffice-fresh pavucontrol networkmanager brightnessctl grim slurp wl-clipboard)
+DEV_CORE=(
+    base-devel git neovim zsh tmux zip unzip curl wget
+    python python-pip cmake nodejs npm
+)
 
-DEV_CORE=(base-devel git neovim zsh python python-pip python-sympy cmake curl tmux zip unzip firefox ethtool nodejs npm)
+sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}"
 
-SEC_SUITE=(nmap wireshark-qt tcpdump sqlmap john hashcat gdb strace ltrace radare2 binwalk openbsd-netcat ghidra)
-
-sudo pacman -S --needed --noconfirm "${RICE_SUITE[@]}" "${DEV_CORE[@]}" "${SEC_SUITE[@]}"
-
-if [ -d "/opt/spicetify-cli" ]; then
-    sudo rm -rf /opt/spicetify-cli
-fi
-
-# --- 4. AUR HELPER SETUP (YAY) ---
-if ! command -v yay &> /dev/null; then
-    echo -e "${GREEN}[*] Building yay-bin from AUR...${NC}"
+# 4. AUR Helper Setup (yay)
+if ! command -v yay &>/dev/null; then
+    info "Building yay-bin from AUR..."
     BUILD_DIR=$(mktemp -d)
     git clone https://aur.archlinux.org/yay-bin.git "$BUILD_DIR"
-    cd "$BUILD_DIR" && makepkg -si --noconfirm && cd -
+    (cd "$BUILD_DIR" && makepkg -si --noconfirm)
     rm -rf "$BUILD_DIR"
 fi
 
-# --- 5. AUR & THIRD-PARTY APPLICATIONS ---
-echo -e "${GREEN}[*] Installing AUR packages (VS Code, Burp Suite, etc.)...${NC}"
-AUR_APPS=(visual-studio-code-bin burpsuite ngrok zsh-autosuggestions zsh-syntax-highlighting spotify spicetify-cli)
+# 5. AUR Desktop Applications & Plugins
+info "Installing AUR packages (VS Code, Spotify, Spicetify, Zsh plugins)..."
+AUR_APPS=(visual-studio-code-bin zsh-autosuggestions zsh-syntax-highlighting spotify spicetify-cli)
 yay -S --needed --noconfirm "${AUR_APPS[@]}"
 
-# --- 6. DOTFILES DEPLOYMENT (GNU STOW) ---
-echo -e "${GREEN}[*] Deploying dotfiles via GNU Stow...${NC}"
+# 6. Dotfiles Deployment (GNU Stow)
 if [ -d "dotfiles" ]; then
-    cd dotfiles
-    # Use stow to symlink all modules to the Home directory
-    stow -t "$HOME" */
-    cd ..
+    info "Deploying dotfiles to home directory..."
+    (cd dotfiles && stow -t "$HOME" */)
+    ok "Dotfiles linked successfully."
 else
-    echo -e "${RED}[!] 'dotfiles' directory not found. Skipping deployment.${NC}"
+    warn "'dotfiles' directory not found. Skipping Stow deployment."
 fi
 
-# --- 7. SHELL & FRAMEWORK CONFIGURATION ---
+# 7. Shell Setup (Oh My Zsh)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo -e "${GREEN}[*] Installing Oh My Zsh framework...${NC}"
+    info "Installing Oh My Zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-# Change default shell to Zsh
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
     sudo chsh -s "$(which zsh)" "$USER"
 fi
 
-# --- 8. SYSTEM SERVICES & PERMISSIONS ---
-echo -e "${GREEN}[*] Configuring system services and user groups...${NC}"
-sudo systemctl enable --now docker.service
-sudo usermod -aG docker,wireshark "$USER"
+# 8. Services
 sudo systemctl enable --now NetworkManager
 
-# --- 9. PYTHON VIRTUAL ENVIRONMENT ---
-if [ ! -d "venv" ]; then
-    echo -e "${GREEN}[*] Creating Python Virtual Environment...${NC}"
-    python -m venv venv
-    ./venv/bin/pip install --upgrade pip
-    ./venv/bin/pip install --upgrade requests scapy pwntools pycryptodome sympy
-fi
-
-# --- 10. SPICETIFY ---
-if command -v spicetify &> /dev/null && [ -d "/opt/spotify" ]; then
+# 9. Spotify & Spicetify Permissions
+if command -v spicetify &>/dev/null && [ -d "/opt/spotify" ]; then
     sudo chmod a+wr /opt/spotify
     sudo chmod a+wr /opt/spotify/Apps -R
-    spicetify backup apply 2>/dev/null || echo -e "${RED}[!] Note: Spicetify requires Spotify to have been launched at least once.${NC}"
+    spicetify backup apply 2>/dev/null || warn "Launch Spotify once before applying themes via Spicetify."
 fi
 
-# --- 10.5 DEFAULT APPLICATIONS (MIME TYPES) ---
-echo -e "${GREEN}[*] Setting default applications for PDF and Word...${NC}"
+# 10. Default MIME Types (Documents & PDFs)
 xdg-mime default org.pwmt.zathura.desktop application/pdf
 xdg-mime default libreoffice-writer.desktop application/msword
 xdg-mime default libreoffice-writer.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
 
-
-# --- 11. CLEANUP & FINALIZATION ---
-echo -e "${GREEN}[*] Cleaning up package cache...${NC}"
+# 11. Cache Cleanup
 sudo pacman -Sc --noconfirm
 
-echo -e "\n${BLUE}============================================================${NC}"
-echo -e "${GREEN}SUCCESS: System is fully provisioned and themed.${NC}"
-echo -e "${BLUE}POST-INSTALLATION NOTES:${NC}"
-echo -e "1. Run ${RED}start-hyprland${NC} to start your desktop session."
-echo -e "2. Use the ${RED}update${NC} alias to keep your system and AUR synced."
-echo -e "3. NGROK: Remember to add your authtoken: ${RED}ngrok config add-authtoken <TOKEN>${NC}"
-echo -e "${BLUE}============================================================${NC}\n"
+ok "Base desktop environment successfully provisioned!"
+
+# 12. Optional Security & CTF Tools Trigger
+echo ""
+read -r -p "Do you want to install / update the Cyber-Security & CTF Tool Suite? [y/N] " install_cyber_choice
+if [[ "$install_cyber_choice" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    if [ -f "./install-cyber.sh" ]; then
+        chmod +x ./install-cyber.sh
+        ./install-cyber.sh
+    else
+        err "File ./install-cyber.sh not found in the current directory."
+    fi
+fi
+
+echo ""
+ok "All set! You can launch Hyprland via your login manager or TTY."

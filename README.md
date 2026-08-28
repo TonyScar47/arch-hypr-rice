@@ -1,249 +1,194 @@
-# ❄️ Arch Linux | Hyprland | Catppuccin Mocha | Automated Rice
+# Arch Linux | Hyprland | Catppuccin Mocha Rice & CTF Environment
 
-This project automates the installation and configuration of an Arch Linux desktop environment based on Hyprland, using the Catppuccin Mocha theme. It is designed to be **instantly customizable**: you can tweak the files before the installation or modify them later to see changes applied in real-time via GNU Stow symlinks.
+An automated Arch Linux setup based on **Hyprland** (Lua configuration), themed with **Catppuccin Mocha**. It manages dotfiles using **GNU Stow** for real-time symlink updates and provides an optional, modular **Cyber-Security & CTF Tool Suite** with an isolated Python virtual environment.
 
 ---
 
-## 🚀 Installation
+## Installation
 
-To ensure the installation works correctly and configurations are applied, you must clone the entire repository so the script can locate the `dotfiles` folder.
-
-### Quick Install (Standard)
-If you want to install the system with my default configurations, open your terminal and run:
+Clone the repository to your system:
 
 ```bash
-git clone [https://github.com/YOUR-USERNAME/arch-hypr-rice.git](https://github.com/YOUR-USERNAME/arch-hypr-rice.git)
+git clone https://github.com/tonyscar47/arch-hypr-rice.git
 cd arch-hypr-rice
-chmod +x install.sh
+chmod +x install.sh install-cyber.sh
+```
+
+### 1. Full Desktop Rice Install
+
+Installs the graphical desktop environment, audio/video drivers, terminal, status bar, and development tools:
+
+```bash
 ./install.sh
 ```
 
-### Custom Install
+> At the end of the script, you will be prompted `[y/N]` to optionally install the Cyber-Security & CTF Suite.
+> 
+> 
 
-If you want to modify the setup before installing:
+### 2. Standalone Cyber & CTF Setup
 
-   Clone the repository using the git clone command above.
-   Navigate into the folders inside dotfiles/ and modify the files according to your preferences.
-   If you want to add or remove programs, open install.sh and edit the RICE_SUITE, DEV_CORE, SEC_SUITE, or AUR_APPS arrays.
-   Run ./install.sh.
+If you only want to install or update the CTF tools, Docker/Wireshark permissions, and the Python virtual environment on an existing system:
 
----
-
-## ⌨️ Keyboard Shortcuts (Keybindings)
-
-All shortcuts use the SUPER key (the Windows or Command key) as the main modifier.
-
-    SUPER + Enter (RETURN): Opens the terminal (Foot).
-
-    SUPER + D: Opens the application launcher (Wofi).
-
-    SUPER + Q: Closes the active window.
-
-    SUPER + F: Toggles Fullscreen mode.
-
-    SUPER + Space: Toggles Floating mode.
-
-    SUPER + Arrows (Up/Down/Left/Right): Moves focus between open windows.
-
-    SUPER + Numbers (1-9): Switches workspaces.
-
-    SUPER + Shift + Numbers (1-9): Silently moves the current window to the selected workspace.
-
-    SUPER + Left Click (Hold): Moves the window freely with the mouse.
-
-    SUPER + Right Click (Hold): Resizes the window with the mouse.
-
-    Print Screen (PRINT): Select an area with the mouse and copy it to the clipboard.
-
-    Shift + Print Screen (PRINT): Takes a full-screen screenshot and saves it automatically to the Pictures folder.
+```bash
+./install-cyber.sh
+```
 
 ---
 
-## 🛠️ Structure & Customization
+## Cyber-Security & CTF Suite
 
-All configurations are managed using GNU Stow. This means the files in the dotfiles/ folder are directly symlinked to your system; any saved change will become instantly active.
+Security tools are maintained in `install-cyber.sh` to keep the base system clean and prevent Python PEP 668 package manager conflicts:
 
-### 1. Installation Script (install.sh) 
+* **Network Analysis:** `nmap`, `wireshark-qt`, `tshark`, `tcpdump`, `openbsd-netcat`, `socat`
 
-This script is the core of the automation and executes the following steps sequentially:
-* **Sudo Persistence**: Keeps administrator privileges active in the background throughout the installation process.
-* **Pacman & Mirror Optimization**: Sets ParallelDownloads = 10 and uses reflector to automatically find, test, and save the 20 fastest HTTPS mirrors.
-+ **Core Installation**: Installs official packages divided into three modular categories:
-  
-  1. RICE_SUITE: Graphical environment and visual tools (Hyprland, Waybar, Wofi, Foot, Fastfetch, fonts, and audio drivers).
+* **Reverse Engineering & Exploitation:** `gdb`, `gef-bin` (AUR), `ghidra`, `radare2`, `binwalk`, `strace`, `ltrace`
 
-  2. DEV_CORE: Base development tools (Git, Neovim, Zsh, Python, CMake, etc.).
+* **Web & Password Cracking:** `burpsuite` (AUR), `sqlmap`, `ngrok` (AUR), `john`, `hashcat`
 
-  3. SEC_SUITE: Cybersecurity tools (Nmap, Wireshark, SQLmap, Hashcat, Radare2, etc.).
+* **Containers:** `docker`, `docker-compose` (auto-configures `docker` and `wireshark` user groups)
 
-* **AUR & Third-Party Setup**: Builds yay-bin (if missing) and uses it to install VS Code, Burp Suite, Ngrok, Zsh plugins, and Spotify.
+### Python Virtual Environment (`~/.venvs/ctf`)
 
-* **Dotfiles Deployment**: Runs GNU Stow to create symbolic links from the dotfiles directory to the user's Home folder.
+The installer creates an isolated environment containing: `requests`, `scapy`, `pwntools`, `pycryptodome`, `sympy`, `z3-solver`, and `ropper`.
 
-* **System Environment**: Installs Oh My Zsh, sets zsh as the default shell, enables system services (Docker, NetworkManager), and adds the user to essential groups (docker, wireshark).
+### CTF Shell Aliases
 
-* **Python Isolation**: Creates a local virtual environment (venv) with dedicated libraries (scapy, pwntools, pycryptodome) to keep the system clean.
+| Command | Action |
+| --- | --- |
+| `ctf-on` | Activates the isolated CTF Python environment (`source ~/.venvs/ctf/bin/activate`)
 
-* **Spotify Patching**: Unlocks root permissions for the app and injects the Spicetify Marketplace script.
+ |
+| `ctf-off` | Deactivates the virtual environment
 
-### 2. Hyprland (Window Manager)
+ |
+| `serve` | Starts a local HTTP server on port 8000 (`python3 -m http.server 8000`)
 
-The window manager logic now lives in **Lua** (Hyprland's config format since 0.55; the old `.conf`/hyprlang format is removed in 0.57). Files are in `dotfiles/hyprland/.config/hypr/`:
+ |
+| `ncl <port>` | Starts a Netcat listener (`nc -lvnp <port>`)
 
-* **Colors & Themes:**
-    * **File: `colors.lua`** — a Lua module that `return`s the Catppuccin Mocha palette (e.g. `mauve`, `blue`, `red`). It's imported at the top of `hyprland.lua` via `local c = require("colors")`. Change a value here to update borders and accents everywhere.
+ |
+| `b64d` | Quick Base64 decoder (`base64 -d`)
 
-* **Monitors & Resolution:**
-    * **File: `hyprland.lua`** — the `hl.monitor({ ... })` call. Edit `mode`, `scale`, or `position`.
+ |
+| `rot13` | Quick ROT13 decoder
 
-* **Keybindings:**
-    * **File: `hyprland.lua`** — the `hl.bind(...)` calls, in the form `hl.bind("SUPER + KEY", hl.dsp.<action>)`.
+ |
+| `checksec` | Runs binary security checks (`pwn checksec`)
 
-* **Aesthetics (Gaps, Borders, Rounding):**
-    * **File: `hyprland.lua`** — the `hl.config({ general = ..., decoration = ... })` block (`gaps_in`, `gaps_out`, `border_size`, `rounding`).
-
-* **Autostart Apps:**
-    * **File: `hyprland.lua`** — inside `hl.on("hyprland.start", function() ... end)`, add `hl.exec_cmd("appname")` (replaces the old `exec-once`).
-    
-### 3. Waybar (Status Bar) - Detailed Analysis (English)
-
-The top status bar is entirely configured within the dotfiles/waybar/.config/waybar/ directory. Here are the key files:
-
-* **Module Logic & Structure:**
-    * **File: dotfiles/waybar/.config/waybar/config**
-    * **What to change: This JSON file defines the order and behavior of the modules.**
-        * **Positioning: Edit the "modules-left", "modules-center", or "modules-right" arrays to rearrange elements like the workspaces, clock, or battery.**
-        * **Interactivity: Many modules have click actions. For example, clicking the CPU or RAM modules opens the btop system monitor in the Foot terminal. The "custom/power" module is configured to launch wlogout for power management.**
-
-* **Style, Colors & Fonts:**
-    * **File: dotfiles/waybar/.config/waybar/style.css**
-    * **What to change: Uses standard CSS syntax.**
-        * **Catppuccin Theme: References Mocha colors, including a background with 90% transparency (rgba(30, 30, 46, 0.9)) and Mauve accents for the clock and active workspaces.**
-        * **Font: Currently set to JetBrainsMono Nerd Font at 14px. Change this to use any font installed on your system.**
-        * **System Alerts: The battery module has a specific .critical class that turns red (#f38ba8) when the charge is low.**
-
-### 4. Foot & Zsh (Terminal & Shell)
-This section covers the command-line interface, optimized for speed and utility during programming or security sessions.
-
-* **Foot Terminal:**
-    * **File:** `dotfiles/foot/.config/foot/foot.ini`
-    * **What to change:**
-        * **Aesthetics:** The opacity (alpha) is set to `0.9` for a semi-transparent "glass" effect. Colors strictly follow the Catppuccin Mocha palette.
-        * **Font:** Uses `JetBrainsMono Nerd Font` size `11`. You can modify the `font=` line to change the typeface or size.
-        * **Padding:** Internal margins are set to `15x15` to ensure text doesn't touch the window edges.
-* **Zsh Configuration:**
-    * **File:** `dotfiles/zsh/.zshrc`
-    * **What to change:**
-        * **Custom Aliases:** Includes shortcuts like `v` for Neovim, `fast` for Fastfetch, and the `update` command which synchronizes both official repositories and the AUR (`sudo pacman -Syu && yay -Sua`).
-        * **CyberChallenge Integration:** Automatically adds the Python virtual environment path (`venv/bin`) to your `$PATH`, making security tools available globally.
-        * **Framework:** Configured with Oh My Zsh using the `robbyrussell` theme, with plugins enabled for autosuggestions and syntax highlighting.
-
-### 5. Neovim (Text Editor) - English Version
-A modern, Lua-based configuration focused on performance and the Catppuccin aesthetic.
-
-* **Plugin Management:**
-    * **File:** `dotfiles/nvim/.config/nvim/init.lua`
-    * **What to change:** Uses `Lazy.nvim` as the plugin manager. It automatically installs `catppuccin` for the theme and `nvim-treesitter` for advanced syntax highlighting.
-* **Global Options:**
-    * Features include relative line numbers for faster jumping, system clipboard synchronization (`unnamedplus`), and smart case-sensitive searching.
-* **Keybindings:**
-    * Uses **Space** as the leader key.
-    * `<leader>w`: Save file.
-    * `<leader>q`: Quit.
-    * `Ctrl + h/j/k/l`: Professional window navigation.
-
-### 6. Fastfetch (System Information) - English Version
-Provides a clean, styled overview of your system stats whenever you open the terminal.
-
-* **Visuals:**
-    * **Files:** `dotfiles/fastfetch/.config/fastfetch/config.jsonc` and `wolf.txt`
-    * **What to change:** Uses a custom ASCII wolf logo found in `wolf.txt`.
-* **Modules:**
-    * Displays OS, Kernel, Package count, WM, Terminal info, and RAM usage.
-    * The colors are themed in Magenta (Mauve) and Blue to match the rest of the system.
-
-### 7. Python Virtual Environment (Cyber-Security Tools) - English Version
-A dedicated environment for cyber-security and CyberChallenge preparation.
-
-* **Location:** `$HOME/arch-hypr-rice/venv/`
-* **Details:** The install script automatically creates this virtual environment to keep your system Python clean.
-* **Pre-installed Libraries:** Includes `requests`, `scapy`, `pwntools`, and `pycryptodome`.
-* **Usage:** These tools are added to your shell path via `.zshrc`, allowing you to run them instantly in any terminal session.
-
-### 🎵 Spotify & Spicetify (Marketplace) - English Version
-*Already provided, but included here for the complete flow:*
-
-On a fresh installation, Spicetify might not inject the Marketplace automatically because Spotify needs to be launched at least once to create its internal configuration files. 
-
-If you don't see the Marketplace (shopping cart icon) after running the install script:
-1.  Open **Spotify** from your app launcher.
-2.  Close it completely.
-3.  Open your terminal and run:
-   
-    ```bash
-    spicetify backup apply
-    curl -fsSL https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.sh | sh
-    ```
-
-5.  Restart Spotify. The Marketplace will now be available!
-6.  If you encounter any "Permission denied" errors while trying to update Spicetify in the future, please consult **Troubleshooting C** below.
+ |
 
 ---
 
-## 🛠️ Troubleshooting
+## Keyboard Shortcuts
 
-If the installation fails or something doesn't work, don't panic. The script automatically saves a detailed log file named `install_progress.log` in the root directory. 
-Open it with any text editor to see exactly which command or package caused the error.
+The main modifier key is **SUPER** (Windows / Command key):
 
-### 🚑 Troubleshooting A.
+| Keybinding | Action |
+| --- | --- |
+| `SUPER + Enter` | Open Terminal (`Foot`)
 
-Corrupted packages, timeouts, or network errors during installation?
-If the installation stops abruptly (e.g., due to a slow mirror or a sudden network disconnection), you might end up with partial or corrupted files in your pacman cache. If the script keeps failing or throws reading errors (like Error reading fd 7), do a complete cache cleanup before trying again:
+ |
+| `SUPER + D` | Application Launcher (`Wofi`)
 
- ```bash
+ |
+| `SUPER + Q` | Close active window
+
+ |
+| `SUPER + F` | Toggle Fullscreen
+
+ |
+| `SUPER + Space` | Toggle Floating mode
+
+ |
+| `SUPER + Arrow Keys` | Move window focus
+
+ |
+| `SUPER + [1-9]` | Switch to workspace `1-9`<br> |
+| `SUPER + Shift + [1-9]` | Move active window to workspace `1-9`<br> |
+| `SUPER + Left Click (Hold)` | Move window freely
+
+ |
+| `SUPER + Right Click (Hold)` | Resize window freely
+
+ |
+| `Print Screen` | Interactive area screenshot to clipboard (`grim` + `slurp`)
+
+ |
+| `Shift + Print Screen` | Fullscreen screenshot saved to `~/Pictures/`<br> |
+
+---
+
+## Repository Structure
+
+```
+arch-hypr-rice/
+├── dotfiles/
+│   ├── fastfetch/      # Fastfetch layout & wolf ASCII art
+│   ├── foot/           # Foot terminal config (Catppuccin Mocha, 0.9 alpha)
+│   ├── hyprland/       # Lua-based Hyprland configuration (0.55+)
+│   ├── nvim/           # Neovim configuration (Lazy.nvim, Treesitter)
+│   ├── waybar/         # Status bar JSON layout & CSS style
+│   └── zsh/            # Zsh configuration & Oh My Zsh settings
+├── install.sh          # Desktop environment installer
+├── install-cyber.sh    # Security & CTF suite installer
+└── README.md
+```
+
+### Configuration Details
+
+* **Hyprland (`dotfiles/hyprland/.config/hypr/`):** Uses the native Lua configuration format. `colors.lua` contains the Catppuccin palette table, while `hyprland.lua` handles keybindings, monitors, window decoration, and autostart commands.
+
+
+* **Waybar (`dotfiles/waybar/.config/waybar/`):** Defined via `config` (JSON) and `style.css`. Clicking CPU/RAM opens `btop` in Foot; power button triggers `wlogout`.
+
+
+* **Foot (`dotfiles/foot/.config/foot/foot.ini`):** Configured with JetBrainsMono Nerd Font, Catppuccin Mocha colors, and 90% opacity.
+
+
+* **Neovim (`dotfiles/nvim/.config/nvim/init.lua`):** Uses `Lazy.nvim` as plugin manager, `nvim-treesitter` for syntax highlighting, and `Space` as the leader key.
+
+
+* **Fastfetch (`dotfiles/fastfetch/.config/fastfetch/`):** Displays hardware and OS metrics alongside the ASCII art from `wolf.txt`.
+
+---
+
+## Spotify & Spicetify Setup
+
+On new installations, Spotify must be opened once before themes can be applied:
+
+1. Open **Spotify** from your app launcher, then close it.
+
+
+2. Run in terminal:
+```bash
+spicetify backup apply
+curl -fsSL https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.sh | sh
+```
+
+3. Restart Spotify to load Spicetify Marketplace.
+
+---
+
+## Troubleshooting
+
+* **Logs:** Check `install_progress.log` (for base desktop) or `install_cyber.log` (for security tools) for exact error outputs.
+
+* **Pacman Cache Errors:** If mirrors time out or download partial packages:
+```bash
 sudo pacman -Scc
+sudo pacman -Syu
 ```
 
-> [!WARNING]
-> Answer Y to all terminal prompts to empty the cache, then restart the installation with ./install.sh. Use this command only as an emergency step to unblock the setup, as it wipes out all saved package versions and will prevent you from doing a quick downgrade in the future if an update breaks your system.
-
-### 🚑 Troubleshooting B.
-
-If you find yourself without an internet connection after the installation, or if the graphical Wi-Fi applet (like nm-applet) crashes or fails to load, you can rely on nmtui (NetworkManager Text User Interface).
-
-It is a command-line tool with a very user-friendly text-based user interface (TUI). It is mainly used to:
- 
-   * Scan for and connect to Wi-Fi networks.
-   
-   * Easily enter your network password without having to deal with raw CLI commands.
-   
-   * Edit or delete existing network configurations.
-
+* **Network Applet:** If the tray network applet fails to launch, open the terminal UI:
 ```bash
 nmtui
 ```
 
-```bash
-nmcli device wifi rescan
-nmtui
-```
-
-### 🚑 Troubleshooting C: Updating Spicetify (Permission Denied)
-
-If you try to update Spicetify (`spicetify update`) and receive a "Permission denied" error, the system is blocking it because the installation directory is owned by root. 
-
-To fix the permissions, force the update, and re-inject the theme into Spotify, run these exact commands in order:
-
-```bash
-sudo chown -R $USER:$USER /opt/spicetify-cli
-spicetify update
-spicetify backup apply
-spicetify restore
-spicetify backup apply
-```
+* **Docker / Wireshark Permissions:** If packet capture or Docker commands require sudo, log out and log back in to apply group permissions.
 
 ---
 
-## 📜 License
+## License
 
-This project is licensed under the **MIT License** (Copyright (c) 2026 Tony-ScarFace). Feel free to use, modify, and distribute this code as you see fit.
+Distributed under the **MIT License**.
