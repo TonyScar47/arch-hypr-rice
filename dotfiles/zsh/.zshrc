@@ -5,9 +5,6 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export EDITOR='nvim'
 
-# Python Virtual Environment for CyberChallenge tools
-export PATH="$HOME/arch-hypr-rice/venv/bin:$PATH"
-
 # 2. OH-MY-ZSH SETUP
 
 export ZSH="$HOME/.oh-my-zsh"
@@ -29,8 +26,8 @@ alias update='sudo pacman -Syu && yay -Sua'
 # 4. AUTO-START HYPRLAND
 
 # This block ensures Hyprland starts automatically when you log in via TTY1
-if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-  exec start-hyprland
+if [ -z "$DISPLAY" ] && [ "${XDG_VTNR:-0}" -eq 1 ]; then
+  exec Hyprland
 fi
 
 # 5. TERMINAL AUTOSTART 

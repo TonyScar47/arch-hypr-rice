@@ -1,0 +1,88 @@
+/* Wofi Style - Catppuccin Mocha (matches Waybar accents) */
+
+/* Palette:
+   base #1e1e2e · surface0 #313244 · surface1 #45475a
+   text #cdd6f4 · subtext0 #a6adc8 · overlay0 #6c7086
+   mauve #cba6f7 · lavender #b4befe · red #f38ba8 */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 14px;
+}
+
+/* Main window */
+window {
+    margin: 0;
+    background-color: rgba(30, 30, 46, 0.95); /* Mocha Base */
+    border: 2px solid #cba6f7;                /* Mauve accent */
+    border-radius: 12px;
+    color: #cdd6f4;                           /* Mocha Text */
+}
+
+#outer-box {
+    margin: 12px;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+}
+
+/* Search input */
+#input {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border: 2px solid #45475a;                /* Surface1 */
+    border-radius: 10px;
+    background-color: #313244;                /* Surface0 */
+    color: #cdd6f4;
+    caret-color: #cba6f7;
+}
+
+#input:focus {
+    border: 2px solid #b4befe;                /* Lavender on focus */
+}
+
+#input image {
+    color: #a6adc8;                           /* Subtext0 */
+}
+
+#scroll {
+    margin: 0;
+    border: none;
+    background-color: transparent;
+}
+
+#inner-box {
+    margin: 0;
+    border: none;
+    background-color: transparent;
+}
+
+/* Entries */
+#entry {
+    padding: 8px 12px;
+    margin: 2px 0;
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+#entry:selected {
+    background-color: #cba6f7;                /* Mauve highlight */
+    outline: none;
+}
+
+#entry:selected #text {
+    color: #1e1e2e;                           /* Base text on highlight */
+    font-weight: bold;
+}
+
+#entry image {
+    margin-right: 10px;
+}
+
+#text {
+    color: #cdd6f4;
+}
+
+#text:selected {
+    color: #1e1e2e;
+}

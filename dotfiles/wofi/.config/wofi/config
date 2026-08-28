@@ -1,0 +1,11 @@
+# Wofi config - arch-hypr-rice
+show=drun
+prompt=Search
+width=40%
+lines=9
+hide_scroll=true
+insensitive=true
+allow_markup=true
+no_actions=true
+gtk_dark=true
+matching=fuzzy
