@@ -49,7 +49,7 @@ else
 fi
 
 info "Installing AUR packages (Burp Suite, Ngrok, GEF)..."
-$AUR_HELPER -S --needed --noconfirm burpsuite ngrok gef-bin || warn "Some AUR packages failed to install."
+$AUR_HELPER -S --needed --noconfirm burpsuite ngrok gef || warn "Some AUR packages failed to install."
 
 # 3. User Groups & Permissions
 info "Enabling Docker service and adding $USER to docker & wireshark groups..."
@@ -72,8 +72,7 @@ fi
     pwntools \
     pycryptodome \
     sympy \
-    z3-solver \
-    ropper
+    z3-solver
 
 # 5. Shell Aliases Injection
 ZSHRC="$HOME/.zshrc"

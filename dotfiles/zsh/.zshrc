@@ -34,3 +34,11 @@ fi
 fastfetch
 # Remove the hash (#) below to enable the wolf on startup, or add it back to disable it.
 # dotfile > fastfetch > .config > fastfetch > wolf.txt
+# --- CTF Helper Aliases ---
+alias ctf-on="source ~/.venvs/ctf/bin/activate"
+alias ctf-off="deactivate"
+alias serve="python3 -m http.server 8000"
+alias ncl="nc -lvnp"
+alias b64d="base64 -d"
+alias rot13="tr 'A-Za-z' 'N-ZA-Mn-za-m'"
+alias checksec="pwn checksec"
