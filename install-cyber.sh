@@ -25,7 +25,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # 1. Official Packages
 info "Installing core security & analysis tools from official repos..."
 SEC_PKGS=(
-    nmap wireshark-qt tshark tcpdump openbsd-netcat socat
+    nmap wireshark-qt wireshark-cli tcpdump openbsd-netcat socat
     gdb strace ltrace radare2 binwalk ghidra
     john hashcat sqlmap
     python python-pip python-virtualenv

@@ -1,0 +1,197 @@
+[0;34m[*][0m Installing core security & analysis tools from official repos...
+warning: nmap-7.991-1 is up to date -- skipping
+warning: wireshark-qt-4.7.2-1 is up to date -- skipping
+error: target not found: tshark
+warning: tcpdump-4.99.6-1 is up to date -- skipping
+warning: openbsd-netcat-1.238_1-1 is up to date -- skipping
+warning: gdb-17.2-1 is up to date -- skipping
+warning: strace-7.0-1 is up to date -- skipping
+warning: ltrace-0.8.1-1 is up to date -- skipping
+warning: radare2-6.1.4-1 is up to date -- skipping
+warning: binwalk-3.1.0-1 is up to date -- skipping
+warning: ghidra-12.1.2-2 is up to date -- skipping
+warning: john-1.9.0.jumbo1-13 is up to date -- skipping
+warning: hashcat-1:7.1.2-2 is up to date -- skipping
+warning: sqlmap-1.10.7-1 is up to date -- skipping
+warning: python-3.14.7-1 is up to date -- skipping
+warning: python-pip-26.2.1-1 is up to date -- skipping
+warning: docker-1:29.7.2-1 is up to date -- skipping
+warning: docker-compose-5.5.0-1 is up to date -- skipping
+[0;31m[-][0m Installation failed on line 34. See install_cyber.log for details.
+[0;34m[*][0m Installing core security & analysis tools from official repos...
+warning: nmap-7.991-1 is up to date -- skipping
+warning: wireshark-qt-4.7.2-1 is up to date -- skipping
+warning: wireshark-cli-4.7.2-1 is up to date -- skipping
+warning: tcpdump-4.99.6-1 is up to date -- skipping
+warning: openbsd-netcat-1.238_1-1 is up to date -- skipping
+warning: gdb-17.2-1 is up to date -- skipping
+warning: strace-7.0-1 is up to date -- skipping
+warning: ltrace-0.8.1-1 is up to date -- skipping
+warning: radare2-6.1.4-1 is up to date -- skipping
+warning: binwalk-3.1.0-1 is up to date -- skipping
+warning: ghidra-12.1.2-2 is up to date -- skipping
+warning: john-1.9.0.jumbo1-13 is up to date -- skipping
+warning: hashcat-1:7.1.2-2 is up to date -- skipping
+warning: sqlmap-1.10.7-1 is up to date -- skipping
+warning: python-3.14.7-1 is up to date -- skipping
+warning: python-pip-26.2.1-1 is up to date -- skipping
+warning: docker-1:29.7.2-1 is up to date -- skipping
+warning: docker-compose-5.5.0-1 is up to date -- skipping
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (6) python-distlib-0.4.3-1  python-python-discovery-1.5.3-1  7zip-26.02-1  python-virtualenv-21.7.5-1  socat-1.8.1.3-1  unrar-1:7.2.7-1
+
+Total Download Size:    6.62 MiB
+Total Installed Size:  15.65 MiB
+
+:: Proceed with installation? [Y/n] 
+:: Retrieving packages...
+ python-virtualenv-21.7.5-1-any downloading...
+ 7zip-26.02-1-x86_64 downloading...
+ python-distlib-0.4.3-1-any downloading...
+ socat-1.8.1.3-1-x86_64 downloading...
+ unrar-1:7.2.7-1-x86_64 downloading...
+ python-python-discovery-1.5.3-1-any downloading...
+checking keyring...
+checking package integrity...
+loading package files...
+checking for file conflicts...
+checking available disk space...
+:: Processing package changes...
+installing socat...
+installing python-distlib...
+installing python-python-discovery...
+installing python-virtualenv...
+installing 7zip...
+installing unrar...
+:: Running post-transaction hooks...
+(1/1) Arming ConditionNeedsUpdate...
+[0;34m[*][0m Installing AUR packages (Burp Suite, Ngrok, GEF)...
+ -> No AUR package found for gef-bin
+Sync Explicit (2): burpsuite-1:2026.7.3-1, ngrok-3.33.1-1
+warning: burpsuite-1:2026.7.3-1 is up to date -- skipping
+warning: ngrok-3.33.1-1 is up to date -- skipping
+ there is nothing to do
+[0;34m[*][0m Enabling Docker service and adding lupo47 to docker & wireshark groups...
+[0;34m[*][0m Setting up Python virtual environment in /home/lupo47/.venvs/ctf...
+Requirement already satisfied: pip in /home/lupo47/.venvs/ctf/lib/python3.14/site-packages (26.2.1)
+WARNING: Cache entry deserialization failed, entry ignored
+WARNING: Cache entry deserialization failed, entry ignored
+Collecting setuptools
+  Downloading setuptools-84.0.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting wheel
+  Downloading wheel-0.48.0-py3-none-any.whl.metadata (2.3 kB)
+Collecting packaging>=24.0 (from wheel)
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Downloading setuptools-84.0.0-py3-none-any.whl (818 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 818.2/818.2 kB 4.3 MB/s  0:00:00
+Downloading wheel-0.48.0-py3-none-any.whl (33 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Installing collected packages: setuptools, packaging, wheel
+
+Successfully installed packaging-26.3 setuptools-84.0.0 wheel-0.48.0
+Collecting requests
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting scapy
+  Using cached scapy-2.7.0-py3-none-any.whl.metadata (5.8 kB)
+Collecting pwntools
+  Using cached pwntools-4.15.0-py2.py3-none-any.whl.metadata (5.3 kB)
+Collecting pycryptodome
+  Using cached pycryptodome-3.23.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.4 kB)
+Collecting sympy
+  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting z3-solver
+  Downloading z3_solver-5.1.0.0-py3-none-manylinux_2_27_x86_64.whl.metadata (777 bytes)
+Collecting ropper
+  Downloading ropper-1.13.13-py3-none-any.whl.metadata (16 kB)
+Collecting charset_normalizer<4,>=2 (from requests)
+  Downloading charset_normalizer-3.5.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+Collecting idna<4,>=2.5 (from requests)
+  Downloading idna-3.19-py3-none-any.whl.metadata (9.2 kB)
+Collecting urllib3<3,>=1.26 (from requests)
+  Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+Collecting certifi>=2023.5.7 (from requests)
+  Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+Collecting paramiko>=1.15.2 (from pwntools)
+  Downloading paramiko-5.0.0-py3-none-any.whl.metadata (3.7 kB)
+Collecting mako>=1.0.0 (from pwntools)
+  Downloading mako-1.4.1-py3-none-any.whl.metadata (2.9 kB)
+Collecting pyelftools>=0.29 (from pwntools)
+  Downloading pyelftools-0.33-py3-none-any.whl.metadata (1.0 kB)
+Collecting capstone>=3.0.5rc2 (from pwntools)
+  Downloading capstone-6.0.0a10-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+Collecting ropgadget>=5.3 (from pwntools)
+  Using cached ropgadget-7.7-py3-none-any.whl.metadata (1.0 kB)
+Collecting pyserial>=2.7 (from pwntools)
+  Using cached pyserial-3.5-py2.py3-none-any.whl.metadata (1.6 kB)
+Requirement already satisfied: pip>=6.0.8 in /home/lupo47/.venvs/ctf/lib/python3.14/site-packages (from pwntools) (26.2.1)
+Collecting pygments>=2.0 (from pwntools)
+  Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting pysocks (from pwntools)
+  Using cached PySocks-1.7.1-py3-none-any.whl.metadata (13 kB)
+Collecting python-dateutil (from pwntools)
+  Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Requirement already satisfied: packaging in /home/lupo47/.venvs/ctf/lib/python3.14/site-packages (from pwntools) (26.3)
+WARNING: Cache entry deserialization failed, entry ignored
+WARNING: Cache entry deserialization failed, entry ignored
+Collecting psutil>=3.3.0 (from pwntools)
+  Using cached psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+Collecting intervaltree>=3.0 (from pwntools)
+  Using cached intervaltree-3.2.1-py2.py3-none-any.whl.metadata (12 kB)
+Collecting sortedcontainers (from pwntools)
+  Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+Collecting unicorn!=2.1.3,!=2.1.4,>=2.0.1 (from pwntools)
+  Using cached unicorn-2.1.2-cp314-cp314-linux_x86_64.whl
+Collecting six>=1.12.0 (from pwntools)
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting rpyc (from pwntools)
+  Using cached rpyc-6.0.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting colored_traceback (from pwntools)
+  Using cached colored_traceback-0.4.2-py3-none-any.whl.metadata (4.6 kB)
+Collecting unix-ar (from pwntools)
+  Using cached unix_ar-0.2.1-py2.py3-none-any.whl.metadata (1.9 kB)
+Collecting zstandard (from pwntools)
+  Using cached zstandard-0.25.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy)
+  Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting filebytes>=0.10.0 (from ropper)
+  Downloading filebytes-0.10.2.tar.gz (20 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [24 lines of output]
+      Traceback (most recent call last):
+        File "/home/lupo47/.venvs/ctf/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+          main()
+          ~~~~^^
+        File "/home/lupo47/.venvs/ctf/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+          json_out["return_val"] = hook(**hook_input["kwargs"])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/home/lupo47/.venvs/ctf/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
+          return hook(config_settings)
+        File "/tmp/pip-build-env-ondtnsns/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-ondtnsns/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+          self.run_setup()
+          ~~~~~~~~~~~~~~^^
+        File "/tmp/pip-build-env-ondtnsns/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 520, in run_setup
+          super().run_setup(setup_script=setup_script)
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-ondtnsns/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 317, in run_setup
+          exec(code, locals())  # noqa: S102 # exec is intentional here
+          ~~~~^^^^^^^^^^^^^^^^
+        File "<string>", line 19, in <module>
+        File "<string>", line 11, in extractMetaInfo
+      AttributeError: module 'ast' has no attribute 'Str'
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+ERROR: Failed to build 'filebytes' when getting requirements to build wheel
+[0;31m[-][0m Installation failed on line 69. See install_cyber.log for details.
