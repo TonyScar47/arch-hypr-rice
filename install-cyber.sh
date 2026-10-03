@@ -74,13 +74,10 @@ fi
     sympy \
     z3-solver
 
-# 5. Shell Aliases Injection
-ZSHRC="$HOME/.zshrc"
-if [ -f "$ZSHRC" ] && ! grep -q "CTF Helper Aliases" "$ZSHRC"; then
-    info "Appending CTF aliases to $ZSHRC..."
-    cat << 'EOF' >> "$ZSHRC"
-
-# --- CTF Helper Aliases ---
+# 5. CTF Shell Aliases
+CTF_ALIASES="$HOME/.zsh_ctf"
+info "Writing CTF aliases to $CTF_ALIASES..."
+cat << 'EOF' > "$CTF_ALIASES"
 alias ctf-on="source ~/.venvs/ctf/bin/activate"
 alias ctf-off="deactivate"
 alias serve="python3 -m http.server 8000"
@@ -89,8 +86,12 @@ alias b64d="base64 -d"
 alias rot13="tr 'A-Za-z' 'N-ZA-Mn-za-m'"
 alias checksec="pwn checksec"
 EOF
-    ok "Aliases added to $ZSHRC."
+
+ZSHRC="$HOME/.zshrc"
+if [ -f "$ZSHRC" ] && ! grep -q "\.zsh_ctf" "$ZSHRC"; then
+    echo '[ -f "$HOME/.zsh_ctf" ] && source "$HOME/.zsh_ctf"' >> "$ZSHRC"
 fi
+ok "CTF aliases ready."
 
 echo ""
 ok "Cyber & CTF environment ready."

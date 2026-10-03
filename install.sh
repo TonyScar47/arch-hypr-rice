@@ -28,7 +28,7 @@ sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 if ! grep -q "ILoveCandy" /etc/pacman.conf; then
     sudo sed -i '/^Color/a ILoveCandy' /etc/pacman.conf
 fi
-sudo sed -i 's/^#ParallelDownloads/ParallelDownloads = 10/' /etc/pacman.conf
+sudo sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 10/' /etc/pacman.conf
 
 info "Benchmarking fast HTTPS mirrors..."
 sudo pacman -Sy --needed --noconfirm archlinux-keyring reflector
@@ -67,7 +67,7 @@ fi
 
 # 5. AUR Desktop Applications & Plugins
 info "Installing AUR packages (VS Code, Spotify, Spicetify, Zsh plugins)..."
-AUR_APPS=(visual-studio-code-bin zsh-autosuggestions zsh-syntax-highlighting spotify spicetify-cli)
+AUR_APPS=(visual-studio-code-bin zsh-autosuggestions zsh-syntax-highlighting spotify spicetify-cli wlogout)
 yay -S --needed --noconfirm "${AUR_APPS[@]}"
 
 # 6. Dotfiles Deployment (GNU Stow)
@@ -82,7 +82,7 @@ fi
 # 7. Shell Setup (Oh My Zsh)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     info "Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 fi
 
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
