@@ -44,7 +44,7 @@ sudo pacman -Syu --noconfirm
 # 3. Desktop Rice & Base Developer Packages (No Security Tools)
 info "Installing desktop environment, media, fonts, and base dev tools..."
 RICE_SUITE=(
-    hyprland waybar swaybg wofi foot fastfetch ttf-jetbrains-mono-nerd
+    hyprland waybar swaybg wofi foot fastfetch ttf-jetbrains-mono-nerd github-cli
     pipewire wireplumber btop network-manager-applet zathura zathura-pdf-mupdf
     libreoffice-fresh pavucontrol networkmanager brightnessctl grim slurp wl-clipboard stow ethtool
 )
